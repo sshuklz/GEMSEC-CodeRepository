@@ -23,7 +23,7 @@ def Allele2AAseq(Allele_entry):
         elif ColNum == 2:
             Allele_read2 = "".join([Allele_read, ":01"]) # assumes short version is short hand for longer i.e HLA-A*01:01:01 is HLA-A*01:01:01:01
     
-    with open ('hla_ISOprot_DB.csv', 'r') as csv_file:
+    with open ('hla_FULLprot_DB.csv', 'r') as csv_file:
         csvread = csv.reader(csv_file, delimiter=' ')
         
         for row in csvread:
