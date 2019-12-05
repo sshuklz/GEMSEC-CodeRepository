@@ -40,12 +40,22 @@ def FASTA2CSV(FASTAname): # input FASTA file name string
                 print(row[1])                               #print function slows loop, remove all in final implemenation (10 second improvement)
                 n = n + 1
                 
-    print(CombStr)
-    AAseq = np.append(AAseq,CombStr) # last CombStr entry as loop has finished
-    CombStr = ''
-    print(CombStr)
-    
-    RefTable = np.c_[Allele,AAseq] #everything can be stored directly into RefTable in loop, so no need for Allele,AAseq in final implementaion
-    
-    CSVname = input("Save as .csv filename (i.e hla_prot_DB2.csv): ")
-    np.savetxt(CSVname, RefTable, fmt='%s')
+print(CombStr)
+AAseq = np.append(AAseq,CombStr) # last CombStr entry as loop has finished
+CombStr = ''
+print(CombStr)
+
+AAseq_ISO, AAseq_indices = np.unique(AAseq, return_index=True)
+AAseq_indices = list(np.sort(AAseq_indices))
+
+AAseq_ISO = AAseq[AAseq_indices]
+Allele_ISO = Allele[AAseq_indices]
+
+RefTable = np.c_[Allele,AAseq] # everything can be stored directly into RefTable in loop, so no need for Allele,AAseq in final implementaion
+RefTable_ISO = np.c_[Allele_ISO,AAseq_ISO]
+
+CSVname = input("Save as .csv filename (i.e hla_prot_DB2): ")
+CSVname_ISO = "".join([CSVname, "_ISOonly.csv"])
+CSVname = "".join([CSVname, ".csv"])
+np.savetxt(CSVname, RefTable, fmt='%s')
+np.savetxt(CSVname_ISO, RefTable_ISO, fmt='%s')
